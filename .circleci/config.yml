@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    branches:
+      only: master 
+    docker:
+      - image: cicleci/node:7.10
+    steps:
+      - checkout
+      - restore_cache:
+          keys: 
+            - dependency-cache-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: yarn install
+      
+      - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: test
+          command: echo "No tests are specified"
+      - run:
+          name: build
+          command: yarn build
+      # - run:
+      #     name: Install awscli
+      #     command: |
+      #       sudo apt-get install python-pip python-dev
+      #       sudo pip install awscli
+      # - run:
+      #     name: Deploy to S3
+      #     command: aws s3 sync public s3://[mydomain] --delete --cache-control "max-age=3153600"

@@ -12,7 +12,7 @@ const BlogPost = ({ node }) => {
 }
 
 const IndexPage = ({ data }) => (
-  <ul>
+  <ul className='blog-post'>
     {data.allContentfulBlog.edges.map(edge => (
       <BlogPost node={edge.node} />
     ))}
@@ -23,9 +23,14 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query pageQuery {
-    allContentfulBlog (filter: {
-      node_locale: { eq: "en-US" }
-    }) {
+    allContentfulBlog (
+      filter: {
+        node_locale: { eq: "en-US" }
+      },
+      sort: {
+        fields: [publishDate], order: ASC
+      }
+    ) {
       edges {
         node {
           slug
