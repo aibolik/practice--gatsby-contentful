@@ -4,7 +4,7 @@ jobs:
     branches:
       only: master 
     docker:
-      - image: cicleci/node:7.10
+      - image: circleci/node:7.10
     steps:
       - checkout
       - restore_cache:
